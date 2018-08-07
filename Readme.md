@@ -1,7 +1,7 @@
 # Личный проект «Пиксель хантер» [![Build status][travis-image]][travis-url]
 
 * Студент: [Роман Руренко](https://up.htmlacademy.ru/ecmascript/6/user/603391).
-* Наставник: `Неизвестно`.
+* Наставник: `Сергей Вохмянин`.
 
 ---
 
