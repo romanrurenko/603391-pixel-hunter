@@ -34,6 +34,7 @@ map((item) => SCREENS_IDS.indexOf(item.id));
 
 let current = 0;
 
+// ограничеваем переключения экранов
 const select = (index) => {
   index = index < 0 ? 0 : index;
   index = index >= 6 ? 6 : index;
