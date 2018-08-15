@@ -1,6 +1,4 @@
 
-const RIGHT_ARROW = 37;
-const LEFT_ARROW = 39;
 const ARROW_CONTENT = `<div class="arrows__wrap">
   <style>
 .arrows__wrap {
@@ -31,18 +29,18 @@ map((it) => it.content);
 
 let current = 0;
 const select = (index) => {
-  index = index < 0 ? screens.length - 1 : index;
-  index = index >= screens.length ? 0 : index;
+  index = index < 0 ? 0 : index;
+  index = index >= 6 ? 6 : index;
   current = index;
   selectSlide(screens[current]);
 };
 
 document.addEventListener(`keydown`, (evt) => {
-  switch (evt.keyCode) {
-    case RIGHT_ARROW:
+  switch (evt.key) {
+    case `ArrowRight`:
       select(current + 1);
       break;
-    case LEFT_ARROW:
+    case `ArrowLeft`:
       select(current - 1);
       break;
   }
@@ -53,11 +51,11 @@ document.body.insertAdjacentHTML(`beforeend`, ARROW_CONTENT);
 const arrows = document.querySelectorAll(`.arrows__btn`);
 
 arrows[0].addEventListener(`click`, function () {
-  select(current + 1);
-});
-
-arrows[1].addEventListener(`click`, function () {
   select(current - 1);
 });
 
-select(2);
+arrows[1].addEventListener(`click`, function () {
+  select(current + 1);
+});
+
+select(0);
