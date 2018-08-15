@@ -17,6 +17,8 @@ const ARROW_CONTENT = `<div class="arrows__wrap">
 <button class="arrows__btn">-></button>
 </div>`;
 
+const SCREENS_IDS = [`intro`, `greeting`, `rules`, `game-1`, `game-2`, `game-3`, `stats`];
+
 const mainElement = document.querySelector(`#main`);
 
 const selectSlide = (element) => {
@@ -25,7 +27,10 @@ const selectSlide = (element) => {
 };
 
 const screens = Array.from(document.querySelectorAll(`template`)).
-map((it) => it.content);
+map((item) => item.content);
+
+const screenAdress = Array.from(document.querySelectorAll(`template`)).
+map((item) => SCREENS_IDS.indexOf(item.id));
 
 let current = 0;
 
@@ -33,11 +38,12 @@ const select = (index) => {
   index = index < 0 ? 0 : index;
   index = index >= 6 ? 6 : index;
   current = index;
-  selectSlide(screens[current]);
+  selectSlide(screens[(screenAdress[current])]);
 };
 
-document.addEventListener(`keydown`, (evt) => {
-  switch (evt.key) {
+
+document.addEventListener(`keydown`, (event) => {
+  switch (event.key) {
     case `ArrowRight`:
       select(current + 1);
       break;
@@ -51,11 +57,11 @@ document.body.insertAdjacentHTML(`beforeend`, ARROW_CONTENT);
 
 const arrows = document.querySelectorAll(`.arrows__btn`);
 
-arrows[0].addEventListener(`click`, function () {
+arrows[0].addEventListener(`click`, () => {
   select(current - 1);
 });
 
-arrows[1].addEventListener(`click`, function () {
+arrows[1].addEventListener(`click`, () => {
   select(current + 1);
 });
 
