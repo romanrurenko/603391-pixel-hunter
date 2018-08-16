@@ -17,8 +17,6 @@ const ARROW_CONTENT = `<div class="arrows__wrap">
 <button class="arrows__btn">-></button>
 </div>`;
 
-const SCREENS_IDS = [`intro`, `greeting`, `rules`, `game-1`, `game-2`, `game-3`, `stats`];
-
 const mainElement = document.querySelector(`#main`);
 
 const selectSlide = (element) => {
@@ -26,22 +24,18 @@ const selectSlide = (element) => {
   mainElement.appendChild(element.cloneNode(true));
 };
 
-const screens = Array.from(document.querySelectorAll(`template`)).
-map((item) => item.content);
+let SCREENS_IDS = [`intro`, `greeting`, `rules`, `game-1`, `game-2`, `game-3`, `stats`];
 
-const screenAdress = Array.from(document.querySelectorAll(`template`)).
-map((item) => SCREENS_IDS.indexOf(item.id));
+const screens = SCREENS_IDS.map((item)=>document.querySelector(`#${item}`).content);
 
 let current = 0;
 
-// ограничеваем переключения экранов
 const select = (index) => {
   index = index < 0 ? 0 : index;
   index = index >= 6 ? 6 : index;
   current = index;
-  selectSlide(screens[(screenAdress[current])]);
+  selectSlide(screens[current]);
 };
-
 
 document.addEventListener(`keydown`, (event) => {
   switch (event.key) {
