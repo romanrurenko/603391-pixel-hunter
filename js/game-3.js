@@ -60,6 +60,5 @@ backButton.addEventListener(`click`, () => {
   changeScreen(introScreen);
 });
 
-
 form3.addEventListener(`click`, onInputsChange);
 export default element;

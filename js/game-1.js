@@ -4,7 +4,6 @@ import {changeScreen, render} from './util.js';
 import game2Screen from './game-2.js';
 import introScreen from './intro.js';
 
-
 const game1Tamplate = `<header class="header">
     <button class="back">
       <span class="visually-hidden">Вернуться к началу</span>

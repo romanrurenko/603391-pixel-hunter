@@ -60,7 +60,6 @@ const onInputsChange = () => {
     item.checked ? 1 : 0);
   let summa = 0;
   summa = checkers.reduce((acc, item) => acc + item);
-  console.log(summa);
   if (summa > 0) {
     changeScreen(game3Screen);
   }
