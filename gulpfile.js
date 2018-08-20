@@ -1,4 +1,3 @@
-'use strict';
 
 const del = require(`del`);
 const gulp = require(`gulp`);
@@ -12,6 +11,8 @@ const minify = require(`gulp-csso`);
 const rename = require(`gulp-rename`);
 const imagemin = require(`gulp-imagemin`);
 const svgstore = require(`gulp-svgstore`);
+const rollup = require(`gulp-better-rollup`);
+const sourcemaps = require(`gulp-sourcemaps`);
 
 gulp.task(`style`, () => {
   return gulp.src(`sass/style.scss`).
@@ -45,11 +46,11 @@ gulp.task(`sprite`, () => {
   .pipe(gulp.dest(`build/img`));
 });
 
-gulp.task(`scripts`, () => {
-  return gulp.src(`js/**/*.js`).
-    pipe(plumber()).
-    pipe(gulp.dest(`build/js/`));
-});
+// gulp.task(`scripts`, () => {
+//   return gulp.src(`js/**/*.js`).
+//     pipe(plumber()).
+//     pipe(gulp.dest(`build/js/`));
+// });
 
 gulp.task(`imagemin`, [`copy`], () => {
   return gulp.src(`build/img/**/*.{jpg,png,gif}`).
@@ -107,6 +108,15 @@ gulp.task(`assemble`, [`clean`], () => {
 
 gulp.task(`build`, [`assemble`], () => {
   gulp.start(`imagemin`);
+});
+
+gulp.task(`scripts`, () => {
+  return gulp.src(`js/main.js`)
+    .pipe(plumber())
+    .pipe(sourcemaps.init())
+    .pipe(rollup({}, `iife`))
+    .pipe(sourcemaps.write(``))
+    .pipe(gulp.dest(`build/js`));
 });
 
 gulp.task(`test`, () => {
