@@ -4,10 +4,10 @@
   "private": true,
   "description": "Личный проект «Пиксель хантер» от HTML Academy",
   "scripts": {
-    "eslint": "eslint ./gulpfile.js js/",
-    "stylelint": "stylelint 'sass/**/*.scss' --syntax scss",
     "build": "gulp build",
     "start": "gulp serve",
+    "eslint": "eslint ./gulpfile.js js/",
+    "stylelint": "stylelint 'sass/**/*.scss' --syntax scss",
     "test": "npm run eslint && npm run stylelint && gulp test"
   },
   "devDependencies": {
@@ -35,8 +35,5 @@
   },
   "engines": {
     "node": "8"
-  },
-  "dependencies": {
-    "ajv": "^6.5.3"
   }
 }
