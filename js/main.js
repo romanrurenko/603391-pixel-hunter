@@ -1,6 +1,4 @@
-// main.js
+import {insertToMainContainer} from './util.js';
+import introTamplate from './intro.js';
 
-import {changeScreen} from './util.js';
-import introScreen from './intro.js';
-
-changeScreen(introScreen);
+insertToMainContainer(introTamplate);

@@ -1,11 +1,9 @@
-// rules.js
 
-import {changeScreen, render} from './util.js';
-import game1Screen from './game-1.js';
+import {insertToMainContainer, createElement} from './util.js';
 import introScreen from './intro.js';
+import startGame from "./game";
 
-const rulesTemplate = `
-<header class="header">
+const rulesTemplate = `<header class="header">
     <button class="back">
       <span class="visually-hidden">Вернуться к началу</span>
       <svg class="icon" width="45" height="45" viewBox="0 0 45 45" fill="#000000">
@@ -32,7 +30,7 @@ const rulesTemplate = `
       <button class="rules__button  continue" type="submit" disabled>Go!</button>
     </form>
   </section>`;
-const element = render(rulesTemplate);
+const element = createElement(rulesTemplate);
 const rulesButton = element.querySelector(`.rules__button`);
 const inputName = element.querySelector(`.rules__input`);
 
@@ -52,12 +50,12 @@ const onInputChange = () => {
 inputName.addEventListener(`input`, onInputChange);
 
 rulesButton.addEventListener(`click`, () => {
-  changeScreen(game1Screen);
+  startGame();
 });
 
 const backButton = element.querySelector(`.back`);
 backButton.addEventListener(`click`, () => {
-  changeScreen(introScreen);
+  insertToMainContainer(introScreen);
 });
 
 export default element;

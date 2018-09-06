@@ -1,10 +1,9 @@
 // greeting.js
 
-import {changeScreen, render} from "./util";
+import {insertToMainContainer, createElement} from "./util";
 import rulesScreen from './rules.js';
 
-const greetingTamplate = `
-<section class="greeting central--blur">
+const greetingTamplate = `<section class="greeting central--blur">
     <img class="greeting__logo" src="img/logo_ph-big.svg" width="201" height="89" alt="Pixel Hunter">
     <div class="greeting__asterisk asterisk"><span class="visually-hidden">Я просто красивая звёздочка</span>*</div>
     <div class="greeting__challenge">
@@ -25,12 +24,12 @@ const greetingTamplate = `
     </button>
   </section>`;
 
-const element = render(greetingTamplate);
+const element = createElement(greetingTamplate);
 
 const continueButton = element.querySelector(`.greeting__continue`);
 
 continueButton.addEventListener(`click`, () => {
-  changeScreen(rulesScreen);
+  insertToMainContainer(rulesScreen);
 });
 
 export default element;

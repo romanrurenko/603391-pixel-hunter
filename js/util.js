@@ -1,16 +1,15 @@
-// util.js
 
-export const render = (template) => {
+export const mainContainer = document.querySelector(`#main`);
+
+export const createElement = (template) => {
   const wrapper = document.createElement(`div`);
-  wrapper.innerHTML = template.trim();
+  wrapper.innerHTML = template;
   return wrapper;
 };
 
-export const mainElement = document.querySelector(`#main`);
-
-export const changeScreen = (element) => {
-  mainElement.innerHTML = ``;
-  mainElement.appendChild(element);
+export const insertToMainContainer = (element) => {
+  mainContainer.innerHTML = ``;
+  mainContainer.appendChild(element);
 };
 
 
