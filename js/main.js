@@ -1,4 +1,4 @@
-import {insertToMainContainer} from './util.js';
-import introTamplate from './intro.js';
+import {setIntroScreen} from "./intro";
 
-insertToMainContainer(introTamplate);
+setIntroScreen();
+
