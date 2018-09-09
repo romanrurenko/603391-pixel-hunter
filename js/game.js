@@ -4,6 +4,7 @@ import {level, INITIAL_STATE} from "./game-data";
 import {getList} from "./stats-line";
 import {getStatsTemplate} from "./stats";
 import {setIntroScreen} from "./intro";
+import {resize} from "./resize";
 
 let currentGame = Object.assign({}, INITIAL_STATE);
 let answersArray = [];
@@ -26,14 +27,19 @@ export const startGame = () => {
 
   const getGameTamplate = (type, currentLevel, levelData) => {
     let template;
+    let image1;
+    let image2;
+    let image3;
 
     switch (type) {
-
-      case `two-of-two`: template = `<section class="game">
+      case `two-of-two`:
+        image1 = resize({width: 468, height: 458}, levelData[currentLevel].answers[0].image);
+        image2 = resize({width: 468, height: 458}, levelData[currentLevel].answers[1].image);
+        template = `<section class="game">
     <p class="game__task">${levelData[currentLevel].question}</p>
     <form class="game__content">
       <div class="game__option">
-        <img src="${levelData[currentLevel].answers[0].image.url}" alt="Option 1" width="468" height="458">
+        <img src="${levelData[currentLevel].answers[0].image.url}" alt="Option 1" width="${image1.width}" height="${image1.height}"}>
         <label class="game__answer game__answer--photo">
           <input class="visually-hidden" name="question1" type="radio" value="photo">
           <span>Фото</span>
@@ -44,7 +50,7 @@ export const startGame = () => {
         </label>
       </div>
       <div class="game__option">
-         <img src="${levelData[currentLevel].answers[1].image.url}" alt="Option 2" width="468" height="458">
+         <img src="${levelData[currentLevel].answers[1].image.url}" alt="Option 2"  width="${image2.width}" height="${image2.height}">
         <label class="game__answer  game__answer--photo">
           <input class="visually-hidden" name="question2" type="radio" value="photo">
           <span>Фото</span>
@@ -57,12 +63,15 @@ export const startGame = () => {
     </form>
     ${getList(answersArray)}
   </section>`;
+
         break;
-      case `tinder-like`: template = `<section class="game">
+      case `tinder-like`:
+        image1 = resize({width: 705, height: 455}, levelData[currentLevel].answers[0].image);
+        template = `<section class="game">
     <p class="game__task">${levelData[currentLevel].question}</p>
     <form class="game__content  game__content--wide">
       <div class="game__option">
-         <img src="${levelData[currentLevel].answers[0].image.url}" alt="Option 1" width="705" height="455">
+         <img src="${levelData[currentLevel].answers[0].image.url}" alt="Option 1" width="${image1.width}" height="${image1.height}">
         <label class="game__answer  game__answer--photo">
           <input class="visually-hidden" name="question1" type="radio" value="photo">
           <span>Фото</span>
@@ -75,22 +84,29 @@ export const startGame = () => {
     </form>
   ${getList(answersArray)}
   </section>`;
+
         break;
-      case `one-of-three`: template = `<section class="game">
+
+      case `one-of-three`:
+        image1 = resize({width: 304, height: 455}, levelData[currentLevel].answers[0].image);
+        image2 = resize({width: 304, height: 455}, levelData[currentLevel].answers[1].image);
+        image3 = resize({width: 304, height: 455}, levelData[currentLevel].answers[2].image);
+        template = `<section class="game">
     <p class="game__task">${levelData[currentLevel].question}</p>
     <form class="game__content  game__content--triple">
       <div class="game__option">
-        <img src="${levelData[currentLevel].answers[0].image.url}" alt="Option 1" data-option=1 width="304" height="455">
+        <img src="${levelData[currentLevel].answers[0].image.url}" alt="Option 1" data-option=1 width="${image1.width}" height="${image1.height}">
       </div>
       <div class="game__option  game__option--selected">
-        <img src="${levelData[currentLevel].answers[1].image.url}" alt="Option 2" data-option=2 width="304" height="455">
+        <img src="${levelData[currentLevel].answers[1].image.url}" alt="Option 2" data-option=2 width="${image2.width}" height="${image1.height}">
       </div>
       <div class="game__option">
-        <img src="${levelData[currentLevel].answers[2].image.url}" alt="Option 3" data-option=3 width="304" height="455">
+        <img src="${levelData[currentLevel].answers[2].image.url}" alt="Option 3" data-option=3 width="${image3.width}" height="${image1.height}">
       </div>
     </form>
   ${getList(answersArray)}
   </section>`;
+
         break;
       default: template = `Error`;
     }
@@ -115,8 +131,13 @@ export const startGame = () => {
 
   const checkOneOfThree = (evt) => {
     const targetOption = evt.target.dataset.option;
+    const countPainting = level[currentGame.level].answers.slice().map((it) => it.type).filter(function (it) {
+      return it === `painting`;
+    }).length;
+    const rightAnswer = (countPainting > 1) ? `photo` : `painting`;
+
     if (targetOption !== undefined) {
-      if (level[currentGame.level].answers[targetOption - 1].type === `painting`) {
+      if (level[currentGame.level].answers[targetOption - 1].type === rightAnswer) {
         goToNextLevel(true);
       } else {
         decLife(currentGame.lives);
@@ -124,6 +145,7 @@ export const startGame = () => {
       }
     }
   };
+
   const checkTinderLike = () => {
     for (const it of inputs) {
       if (it.checked) {
@@ -136,6 +158,7 @@ export const startGame = () => {
       }
     }
   };
+
   const checkTwoOfTwo = () => {
     let checkedButtons = Array.from(inputs).map((item)=>
       item.checked ? item.value : ``);
@@ -155,20 +178,16 @@ export const startGame = () => {
     }
   };
 
-  const checkAnswers = (evt) => {
-    if (level[currentGame.level].type === `one-of-three`) {
-      checkOneOfThree(evt);
-    } else if (level[currentGame.level].type === `tinder-like`) {
-      checkTinderLike();
-    } else if (level[currentGame.level].type === `two-of-two`) {
-      checkTwoOfTwo();
+
+  const onInputsChange = (evt) => {
+    switch (level[currentGame.level].type) {
+      case `two-of-two`:checkTwoOfTwo(); break;
+      case `tinder-like`: checkTinderLike(); break;
+      case `one-of-three`: checkOneOfThree(evt); break;
+      default: break;
     }
   };
 
-
-  const onInputsChange = (evt) => {
-    checkAnswers(evt);
-  };
   const form = document.querySelector(`.game__content`);
   const inputs = form.querySelectorAll(`input`);
 
@@ -219,5 +238,3 @@ export const startGame = () => {
     setIntroScreen();
   });
 };
-
-
