@@ -55,7 +55,9 @@ export const setRulesScreen = () => {
 
   inputName.addEventListener(`input`, onInputChange);
   rulesButton.addEventListener(`click`, () => {
+
     startGame();
+
   });
 
   const backButton = element.querySelector(`.back`);

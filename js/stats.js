@@ -1,5 +1,5 @@
 import {getList} from "./stats-line";
-import {gamePoints, getDataStat} from "./game-data";
+import {gamePoints, getDataStat} from "./data/game-data";
 
 
 export const getStatsTemplate = (lastAanswersArrays) => {
