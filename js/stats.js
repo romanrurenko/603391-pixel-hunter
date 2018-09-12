@@ -1,8 +1,29 @@
 import {getList} from "./stats-line";
-import {gamePoints, getDataStat} from "./data/game-data";
 
 
-export const getStatsTemplate = (lastAanswersArrays) => {
+export const getDataStat = (array) => {
+  let game = {};
+  game.lives = 3 - array.slice().filter((it) => it.success === false).length;
+  game.fast = array.slice().filter((it) => it.time < 10).length;
+  game.slow = array.slice().filter((it) => it.time >= 20).length;
+  game.normal = array.slice().filter((it) => it.time > 10 && it.time < 20).length;
+  game.correct = array.slice().filter((it) => it.success === true).length;
+  game.undefined = array.slice().filter((it) => it.success === undefined).length;
+  return game;
+};
+
+
+export const gamePoints = (answers) => {
+  let game = getDataStat(answers);
+  let sumGamePoint = game.correct * 100 + game.fast * 50 + game.slow * -50 + game.lives * 50;
+  if (game.undefined > 0) {
+    sumGamePoint = -1;
+  }
+  return sumGamePoint;
+};
+
+
+export default (lastAanswersArrays) => {
 
   let statNode = ``;
   let game = {};
@@ -83,4 +104,4 @@ export const getStatsTemplate = (lastAanswersArrays) => {
   return `${header} ${statNode}`;
 };
 
-export default getStatsTemplate;
+

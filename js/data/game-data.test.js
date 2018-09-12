@@ -1,6 +1,8 @@
 import {assert} from 'chai';
 import {generateAnswersArray} from './generate-data.js';
-import {INITIAL_STATE, changeLevel, gamePoints} from './game-data.js';
+import {INITIAL_STATE} from './game-data.js';
+import {gamePoints} from "../stats";
+import {changeLevel} from "../game";
 
 describe(`The calculations in the game`, () => {
   it(`should return -1 when the player answered less than 10 questions`, () => {

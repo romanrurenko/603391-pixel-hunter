@@ -1,11 +1,9 @@
+import AbstractView from "./abstract-view";
 
-import {insertToMainContainer, createElement} from './util.js';
-import {setIntroScreen} from './intro';
-import {startGame} from "./game";
+export default class RulesView extends AbstractView {
 
-export const setRulesScreen = () => {
-
-  const rulesTemplate = `<header class="header">
+  get template() {
+    return `<header class="header">
     <button class="back">
       <span class="visually-hidden">Вернуться к началу</span>
       <svg class="icon" width="45" height="45" viewBox="0 0 45 45" fill="#000000">
@@ -32,40 +30,37 @@ export const setRulesScreen = () => {
       <button class="rules__button  continue" type="submit" disabled>Go!</button>
     </form>
   </section>`;
+  }
 
-  const element = createElement(rulesTemplate);
-  insertToMainContainer(element);
+  bind() {
 
-  const rulesButton = element.querySelector(`.rules__button`);
-  const inputName = element.querySelector(`.rules__input`);
+    const goButton = this.element.querySelector(`.rules__button`);
+    const inputName = this.element.querySelector(`.rules__input`);
+    const backButton = this.element.querySelector(`.back`);
 
-  const onInputChange = () => {
+    goButton.addEventListener(`click`, () => {
+      this.onClick();
+    });
 
-    let buttonDisabled = rulesButton.hasAttribute(`disabled`);
-    let textLenght = inputName.value.length;
+    backButton.addEventListener(`click`, () => {
+      this.onClickBack();
+    });
 
-    if (textLenght > 0 && buttonDisabled) {
-      rulesButton.removeAttribute(`disabled`);
-    }
+    inputName.addEventListener(`input`, () => {
+      if (inputName.value.length > 0 && goButton.hasAttribute(`disabled`)) {
+        goButton.disabled = false;
+      } else if (inputName.value.length < 1) {
+        goButton.disabled = true;
+      }
+    });
+  }
 
-    if (textLenght === 0 && !buttonDisabled) {
-      rulesButton.setAttribute(`disabled`, ``);
-    }
-  };
+  onClick() {
 
-  inputName.addEventListener(`input`, onInputChange);
-  rulesButton.addEventListener(`click`, () => {
+  }
 
-    startGame();
+  onClickBack() {
 
-  });
-
-  const backButton = element.querySelector(`.back`);
-  backButton.addEventListener(`click`, () => {
-    setIntroScreen();
-  });
-
-  return element;
-};
-
+  }
+}
 

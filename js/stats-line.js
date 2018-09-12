@@ -1,5 +1,5 @@
 
-const getClasses = (classArray) => {
+const getAnswerStatus = (classArray) => {
 
   let stringStat = ``;
   let item = ``;
@@ -28,7 +28,7 @@ const getClasses = (classArray) => {
 
 export const getList = (array) =>
   `<ul class="stats">
-${getClasses(array)}
+${getAnswerStatus(array)}
 ${new Array(10 - array.length)
     .fill(`<li class="stats__result stats__result--unknown"></li>`)
   .join(``)}

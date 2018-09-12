@@ -3,13 +3,13 @@ export const resize = (frame, image) => {
   const sourceAspect = image.width / image.height;
   const destAspect = frame.width / frame.height;
 
-  if (sourceAspect > 1) {
-    newSize.height = frame.width / sourceAspect;
+  if (sourceAspect > destAspect) {
+    newSize.height = Math.floor(frame.width / sourceAspect);
     newSize.width = frame.width;
-  } else if (sourceAspect < 1 && destAspect > 0) {
-    newSize.width = Math.floor(frame.width / 2);
+  } else if (sourceAspect < destAspect) {
+    newSize.width = Math.floor(frame.height * destAspect);
     newSize.height = frame.height;
-  } else if (sourceAspect === 1 && destAspect > 1) {
+  } else if (sourceAspect === destAspect) {
     newSize.height = frame.height;
     newSize.width = frame.height;
   }
